@@ -1,12 +1,11 @@
 # UCLALib Ansible Role: Solr
 
-Deploys Apache Solr 7 on RHEL servers
+Ansible role to install Apache Solr 7 on RHEL servers and set-up Solr cores
 
 ## Dependencies
 
 * uclalib_role_java
 * uclalib_role_apache
-* uclalib_role_iptables
 
 This role is capable of deploying Solr in the following configurations:
 
@@ -63,10 +62,6 @@ Example:
   sudo: true
   hosts: test
   vars:
-    iptables_allowed_input_rules:
-      - src_ip: 164.67.0.0/16
-        dest_port: 80
-        protocol: tcp
     solr_cores:
       - ident: core1
         type: default
@@ -76,8 +71,7 @@ Example:
         type: hyrax
 
     roles:
-      - { role: uclalib_role_java }
+      - { role: uclalib_role_java, oracle_java_version: '1.8.0_181' }
       - { role: uclalib_role_apache }
-      - { role: uclalib_role_solr }
-      - { role: uclalib_role_iptables }
+      - { role: uclalib_role_solr, solr_version: '7.4.0' }
 ```

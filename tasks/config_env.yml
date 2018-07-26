@@ -13,5 +13,5 @@
 - name: Start and Enable Solr service
   service:
     name: solr
-    state: started
+    state: restarted
     enabled: yes
