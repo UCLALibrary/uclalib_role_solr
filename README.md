@@ -2,44 +2,41 @@
 
 Ansible role to install Apache Solr 7 on RHEL servers and set-up Solr cores
 
-## Dependencies
-
-* uclalib_role_java
-* uclalib_role_apache
+## Requirements
 
 This role is capable of deploying Solr in the following configurations:
 
 * Standalone: a single Solr instance
 
+It is assumed that Java and HTTPD are installed on the host system.
+
+If you have project-specific Solr configuration files, they should be placed in the `files` role directory inside a sub-directory named `projname_solr-conf`, where `projname` is an identifier you choose to represent the custom config files for this project.
+
 ## Variables
 
-solr_version - defines the version of Solr to use (e.g. 4.2.0, etc.)
-
-solr_url - defines the URL to download Solr
-
-solr_user - defines the user to own Solr files and run the Solr process
-
-solr_service_name - defines the name of the Solr process
-
-solr_install_dir - defines the top-level directory where Solr will be installed
-
-solr_base_dir - defines the full path where Solr is installed
-
-solr_data_dir - defines the full path where the Solr indexes/cores will reside
-
-solr_port - defines the network port the Solr process will bind to
-
-solr_config_file - defines the path to the Solr installation configuration file
-
-solr_java_min_mem - defines the Solr process minimum memory allocation
-
-solr_java_max_mem - defines the Solr process maximum memory allocation
-
-solr_cores - the dictionary list of all Solr cores to be used in this instance
-  * ident - defines the names of the cores to configure within this Solr instance
-  * type - defines the external application using the solr core (e.g. default, drupal, etc).
+* `solr_version` - defines the version of Solr to use (e.g. 4.2.0, etc.)
+* `solr_url` - defines the URL to download Solr
+* `solr_user` - defines the user to own Solr files and run the Solr process
+* `solr_service_name` - defines the name of the Solr process
+* `solr_install_dir` - defines the top-level directory where Solr will be installed
+* `solr_base_dir` - defines the full path where Solr is installed
+* `solr_data_dir` - defines the full path where the Solr indexes/cores will reside
+* `solr_port` - defines the network port the Solr process will bind to
+* `solr_config_file` - defines the path to the Solr installation configuration file
+* `solr_java_min_mem` - defines the Solr process minimum memory allocation
+* `solr_java_max_mem` - defines the Solr process maximum memory allocation
+* `solr_cores` - the dictionary list of all Solr cores to be used in this instance
+  * `ident` - defines the names of the cores to configure within this Solr instance
+  * `type` - defines the project name used to reference which custom solr configs to use (e.g. default, drupal, hyrax etc).
     * the `type` variable is used in conjunction with application specific solr configuration files. You will need to manually put the appropriate files in the `files` directory for this role.
-      * the naming convention for solr configuration files is: `appname_solr-conf`
+      * the naming convention for solr configuration files is: `projname_solr-conf`
+      * for example, if your `type` is set to drupal, then the custom solr config file dir should be named: `drupal_solr-conf`
+
+## Dependencies
+
+* uclalib_role_rhel7repos
+* uclalib_role_java
+* uclalib_role_apache
 
 ## Sample Variable Definition Formats
 
