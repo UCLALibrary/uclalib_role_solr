@@ -4,7 +4,6 @@ dependencies:
   - { role: uclalib_role_rhel7repos }
   - { role: uclalib_role_java, oracle_java_version: '1.8.0_181' }
   - { role: uclalib_role_apache }
-  - { role: uclalib_role_solr7, solr_version: '7.4.0' }
 
 galaxy_info:
   author: Stephen Gurnick - https://github.com/sgurnick
