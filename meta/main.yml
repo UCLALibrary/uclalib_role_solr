@@ -1,8 +1,6 @@
 ---
 
-dependencies:
-  - src: git+https://github.com/UCLALibrary/uclalib_role_java.git
-  - src: git+https://github.com/UCLALibrary/uclalib_role_apache.git
+dependencies: []
 
 galaxy_info:
   author: Stephen Gurnick - https://github.com/sgurnick
@@ -15,4 +13,4 @@ galaxy_info:
     versions:
     - 7
   galaxy_tags:
-    - solr 
+    - solr
