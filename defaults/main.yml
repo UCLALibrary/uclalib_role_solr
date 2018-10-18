@@ -39,7 +39,7 @@ solr_java_max_mem: 2048m
 solr_replication_node: "none"
 
 # Defines the URL path to the Solr Master node (only necessary if solr_replication_node set to slave)
-# Example: http://solr.library.ucla.edu:port/solr/core_name/replication
+# Example: http://solr.library.ucla.edu:port/solr/core_name
 solr_replication_master_url: ""
 
 # Define the cores to be included in the Solr instance
