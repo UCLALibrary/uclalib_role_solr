@@ -25,6 +25,8 @@ If you have project-specific Solr configuration files, they should be placed in 
 * `solr_config_file` - defines the path to the Solr installation configuration file
 * `solr_java_min_mem` - defines the Solr process minimum memory allocation
 * `solr_java_max_mem` - defines the Solr process maximum memory allocation
+* `solr_replication_node` - defines the Solr replication status for this system (default is `none` - options are `master`, `slave`, `none`)
+* `solr_replication_master_url` - defines the URL path to the Solr Master node (only necessary if `solr_replication_node` set to `slave`)
 * `solr_cores` - the dictionary list of all Solr cores to be used in this instance
   * `ident` - defines the names of the cores to configure within this Solr instance
   * `type` - defines the project name used to reference which custom solr configs to use (e.g. default, drupal, hyrax etc).
