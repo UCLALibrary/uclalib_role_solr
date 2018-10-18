@@ -35,6 +35,13 @@ solr_java_min_mem: 2048m
 
 solr_java_max_mem: 2048m
 
+# Define if Solr replication should be enabled (master, slave, none)
+solr_replication_node: "none"
+
+# Defines the URL path to the Solr Master node (only necessary if solr_replication_node set to slave)
+# Example: http://solr.library.ucla.edu:port/solr/core_name/replication
+solr_replication_master_url: ""
+
 # Define the cores to be included in the Solr instance
 # Define the core identifier and solrconfig type
 # Use "default" type to include standard solrconfig
