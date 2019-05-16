@@ -62,10 +62,13 @@
       <str name="dir">${solr.ulog.dir:}</str>
     </updateLog>
 
+  <!-- autoCommit disabled due to performance penalties -->
+  <!--
     <autoCommit>
       <maxTime>${solr.autoCommit.maxTime:15000}</maxTime>
       <openSearcher>false</openSearcher>
     </autoCommit>
+  -->
 
     <autoSoftCommit>
       <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime>
