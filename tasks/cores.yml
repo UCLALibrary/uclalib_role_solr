@@ -22,6 +22,15 @@
   with_items: "{{ solr_cores }}"
   when: item.type != "default"
 
+- name: Put in place application-specific update-script.js files
+  template:
+    src: "{{ item.type }}_solrconfig/update-script.js.j2"
+    dest: "{{ solr_data_dir }}/data/{{ item.ident }}/conf/update-script.js
+  with_items: "{{ solr_cores }}"
+  when:
+    - item.type != "default"
+    - solr_ursus_url is defind
+
 - name: Set correct ownership of the Solr core directories
   file:
     path: "{{ solr_data_dir }}/data/{{ item.ident }}/conf"
