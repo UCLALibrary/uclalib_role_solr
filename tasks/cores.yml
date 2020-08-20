@@ -29,7 +29,7 @@
   with_items: "{{ solr_cores }}"
   when:
     - item.type != "default"
-    - solr_ursus_url is defind
+    - solr_ursus_url is defined
 
 - name: Set correct ownership of the Solr core directories
   file:
