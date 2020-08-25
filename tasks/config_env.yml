@@ -5,6 +5,7 @@
     dest: "{{ solr_config_file }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
+    mode: preserve
     state: present
   with_items:
     - regexp: "^.?SOLR_JAVA_MEM="

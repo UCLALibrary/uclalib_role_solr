@@ -10,7 +10,7 @@
   get_url:
     url: "{{ solr_url }}"
     dest: "/{{ solr_install_dir }}/solr-{{ solr_version }}.tgz"
-  when: solr_path.stat.exists == False
+  when: not solr_path.stat.exists
   register: solr_download_status
 
 - name: Install and Configure Solr

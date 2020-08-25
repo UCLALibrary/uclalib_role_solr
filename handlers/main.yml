@@ -1,0 +1,6 @@
+---
+
+- name: Restart Solr
+  systemd:
+    name: solr
+    state: restarted

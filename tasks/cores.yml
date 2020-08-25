@@ -3,24 +3,31 @@
 - name: Create Solr cores
   become: yes
   become_user: "{{ solr_user }}"
-  shell: >
+  command: >
     {{ solr_base_dir }}/bin/solr create -c {{ item.ident }} -p {{ solr_port }}
     creates={{ solr_data_dir }}/data/{{ item.ident }}
+    creates: "{{ solr_data_dir }}/data/{{ item.ident }}/conf"
   with_items: "{{ solr_cores }}"
 
 - name: Put in place application-specifc Solr core configuration files
   copy:
     src: "{{ item.type }}_solr-conf/"
     dest: "{{ solr_data_dir }}/data/{{ item.ident }}/conf"
+    mode: "0644"
   with_items: "{{ solr_cores }}"
   when: item.type != "default"
+  norify:
+    - Restart Solr
 
 - name: Put in place application-specific solrconfig.xml files
   template:
     src: "{{ item.type }}_solrconfig/solrconfig_xml.j2"
     dest: "{{ solr_data_dir }}/data/{{ item.ident }}/conf/solrconfig.xml"
+    mode: "0644"
   with_items: "{{ solr_cores }}"
   when: item.type != "default"
+  norify:
+    - Restart Solr
 
 - name: Set correct ownership of the Solr core directories
   file:
@@ -28,10 +35,13 @@
     owner: "solr"
     group: "solr"
     recurse: "yes"
+    mode: "preserve"
     state: "directory"
   with_items: "{{ solr_cores }}"
 
-- name: Restart Solr
-  systemd:
-    name: solr
-    state: restarted
+- name: Force Restart?
+  debug:
+    msg: "Forcing restart of Solr"
+  when: ( force_restart | default(false)) |bool
+  notify:
+    - Restart Solr
