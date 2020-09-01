@@ -56,11 +56,11 @@ function processAdd(cmd) {
     urlString = 'http://localhost:8983/solr/ursus';
     logger.info('update-script#processAdd: SOLR_URSUS_URL=' + urlString);
     logger.info('update-script#processAdd: SolrClient=' + SolrClient);
-    solrclient = new HttpSolrClient.Builder(urlString).build();
+    /*solrclient = new HttpSolrClient.Builder(urlString).build();
     solrclient.setParser(new XMLResponseParser());
     logger.info('update-script#processAdd: solrclient=' + solrclient);
     solrclient.add(solrDocUrsus);
-    solrclient.commit();
+    solrclient.commit();*/
   }
 
   //var solrDocUrsus = doc.deepcopy();
