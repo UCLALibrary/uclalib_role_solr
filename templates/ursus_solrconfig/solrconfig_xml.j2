@@ -45,15 +45,15 @@
   </requestDispatcher>
 
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
-
+{% if solr_replication_node == "master" %}
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
     <lst name="defaults">
       <str name="update.chain">add_modify_fields</str>
 
     </lst>
   </requestHandler>
-
-  <!-- config for the admin interface -->
+{% endif %}
+        <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -198,7 +198,7 @@
       <str>termsComponent</str>
     </arr>
   </requestHandler>
-
+{% if solr_replication_node == "master" %}
   <updateRequestProcessorChain name="add_modify_fields" default="${update.autoCreateFields:true}">
     <processor class="solr.ParseDateFieldUpdateProcessorFactory">
       <arr name="format">
@@ -236,7 +236,8 @@
     <processor class="solr.LogUpdateProcessorFactory" />
     <processor class="solr.RunUpdateProcessorFactory" />
   </updateRequestProcessorChain>
-  <!-- Spell Check
+  {% endif %}
+        <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
@@ -358,6 +359,7 @@
   </requestHandler>
 
   <!-- For master replicaiton see https://lucene.apache.org/solr/guide/7_5/index-replication.html -->
+  {% if solr_replication_node == "master" %}
   <requestHandler name="/replication" class="solr.ReplicationHandler">
     <lst name="master">
       <str name="replicateAfter">commit</str>
@@ -370,4 +372,13 @@
       <str name="maxWriteMBPerSec">16</str>
     </lst>
   </requestHandler>
+{% endif %}
+{% if solr_replication_node == "slave" %}
+  <requestHandler name="/replication" class="solr.ReplicationHandler">
+    <lst name="slave">
+      <str name="masterUrl">{{ solr_replication_master_url }}</str>
+      <str name="pollInterval">00:05:00</str>
+    </lst>
+  </requestHandler>
+{% endif %}
 </config>
