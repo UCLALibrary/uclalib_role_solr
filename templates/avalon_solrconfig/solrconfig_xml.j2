@@ -334,7 +334,7 @@
   8 {% if solr_replication_node == "slave" %}
   7   <requestHandler name="/replication" class="solr.ReplicationHandler">
   6     <lst name="slave">
-  5       <str name="masterUrl">{{ solr_replication_master_url }}</str>
+  5       <str name="masterUrl">{{ solr_replication_master_url }}/{{ item.ident }}</str>
   4       <str name="pollInterval">00:00:05</str>
   3     </lst>
   2   </requestHandler>
