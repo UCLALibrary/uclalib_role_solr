@@ -57,7 +57,7 @@
     </lst>
   </requestHandler>
 {% endif %}
-        <!-- config for the admin interface -->
+          <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -270,7 +270,7 @@
   </updateRequestProcessorChain>
 {% endif %}
 
-      <!-- Spell Check
+        <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
@@ -411,7 +411,7 @@
 {% if solr_replication_node == "slave" %}
   <requestHandler name="/replication" class="solr.ReplicationHandler">
     <lst name="slave">
-      <str name="masterUrl">{{ solr_replication_master_url }}/{{ item.ident }}</str>
+      <str name="masterUrl">{{ solr_replication_master_url }}/{{ item.ident }}/replication</str>
       <str name="pollInterval">00:05:00</str>
     </lst>
   </requestHandler>
