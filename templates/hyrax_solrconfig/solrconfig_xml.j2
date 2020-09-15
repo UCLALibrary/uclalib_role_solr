@@ -57,7 +57,7 @@
     </lst>
   </requestHandler>
 {% endif %}
-          <!-- config for the admin interface -->
+            <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -257,20 +257,16 @@
       <str name="signatureClass">solr.processor.Lookup3Signature</str>
       <str name="defType">lucene</str>
     </processor>
-
-    <processor class="solr.StatelessScriptUpdateProcessorFactory">
+    <!-- Disable update script and remove ursus core in stage -->
+    <!--<processor class="solr.StatelessScriptUpdateProcessorFactory">
       <str name="script">update-script.js</str>
-      <!--
-        <lst name="params">
-          <str name="config_param">example config parameter</str>
-        </lst>-->
-    </processor>
+    </processor> -->
     <processor class="solr.LogUpdateProcessorFactory" />
     <processor class="solr.RunUpdateProcessorFactory" />
   </updateRequestProcessorChain>
 {% endif %}
 
-        <!-- Spell Check
+          <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
