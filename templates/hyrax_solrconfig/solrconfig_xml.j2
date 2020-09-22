@@ -50,14 +50,14 @@
   </requestDispatcher>
 
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
-{% if solr_replication_node == "master" %}
+{% if solr_replication_node != "slave" %}
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
     <lst name="defaults">
       <str name="update.chain">add_modify_fields</str>
     </lst>
   </requestHandler>
 {% endif %}
-                  <!-- config for the admin interface -->
+                        <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -205,7 +205,7 @@
       <str>termsComponent</str>
     </arr>
   </requestHandler>
-{% if solr_replication_node == "master" %}
+{% if solr_replication_node != "slave" %}
   <updateRequestProcessorChain name="add_modify_fields" default="${update.autoCreateFields:true}">
     <processor class="solr.CloneFieldUpdateProcessorFactory">
       <str name="source">date_dtsim</str>
@@ -266,7 +266,7 @@
   </updateRequestProcessorChain>
 {% endif %}
 
-                <!-- Spell Check
+                      <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
