@@ -53,7 +53,7 @@
     </lst>
   </requestHandler>
 {% endif %}
-                  <!-- config for the admin interface -->
+          <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -62,12 +62,12 @@
     <updateLog>
       <str name="dir">${solr.ulog.dir:}</str>
     </updateLog>
-    <!--
+
     <autoCommit>
       <maxTime>${solr.autoCommit.maxTime:15000}</maxTime>
       <openSearcher>false</openSearcher>
     </autoCommit>
--->
+
     <autoSoftCommit>
       <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime>
     </autoSoftCommit>
@@ -200,13 +200,6 @@
   </requestHandler>
 {% if solr_replication_node == "master" %}
   <updateRequestProcessorChain name="add_modify_fields" default="${update.autoCreateFields:true}">
-    <processor class="solr.CloneFieldUpdateProcessorFactory">
-      <str name="source">ark_ssi</str>
-      <str name="dest">id</str>
-    </processor>
-    <processor class="solr.LastFieldValueUpdateProcessorFactory">
-      <str name="fieldName">id</str>
-    </processor>
     <processor class="solr.ParseDateFieldUpdateProcessorFactory">
       <arr name="format">
         <str>yyyy-MM-dd'T'HH:mm:ss.SSSZ</str>
@@ -244,7 +237,7 @@
     <processor class="solr.RunUpdateProcessorFactory" />
   </updateRequestProcessorChain>
   {% endif %}
-                  <!-- Spell Check
+          <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
@@ -329,7 +322,7 @@
        </lst>
       -->
   </searchComponent>
-  <!--
+
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
       <str name="name">mySuggester</str>
@@ -350,7 +343,7 @@
       <str>suggest</str>
     </arr>
   </requestHandler>
--->
+
   <requestHandler name="/update/extract" class="org.apache.solr.handler.extraction.ExtractingRequestHandler">
     <lst name="defaults">
       <str name="fmap.Last-Modified">last_modified</str>
