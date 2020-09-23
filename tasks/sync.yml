@@ -1,0 +1,88 @@
+---
+
+# Set up master->slave index syncing via rsync
+
+- name: Add ssh public keys to the {{ solr_user }} user account
+  authorized_key:
+    user: "{{ solr_user }}"
+    key: "{{ item }}"
+    state: present
+    exclusive: false
+  with_items: "{{ ssh_pub_keys }}"
+  when: ssh_pub_keys is defined
+
+- name: Sudoers / Crontab / SSH Keys
+  block:
+
+    - name: >
+        Configure sudoers to allow {{ solr_group }} group
+        to restart {{ solr_service_name }}
+      template:
+        src: "{{ item }}.j2"
+        dest: "/etc/sudoers.d/{{ item }}"
+        owner: root
+        group: root
+        mode: "0440"
+        validate: visudo --check %s
+      with_items:
+        - solr_group_solr_sudoers
+
+    - name: Copy core sync script
+      copy:
+        src: "{{ sync_script }}"
+        dest: "/usr/local/bin/{{ sync_script }}"
+        mode: 0755
+        owner: root
+        group: root
+        validate: bash -n %s
+
+    - name: >
+        Put in place the environmental definitions
+        in the {{ solr_user }} user's crontab
+      cron:
+        user: "{{ solr_user }}"
+        env: true
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+      with_items:
+        - { key: "SHELL", value: "/bin/sh" }
+        - { key: "PATH",
+            value:
+              "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+        }
+
+    - name: Add {{ sync_script }} script to {{ solr_user }} user's crontab
+      cron:
+        user: "{{ solr_user }}"
+        name: Sync Solr Core {{ item.ident }}
+        job: >
+          "/usr/local/bin/{{ sync_script }}
+          {{ solr_replication_master_url }}/{{ item.ident }}"
+        weekday: "*"
+        month: "*"
+        day: "*"
+        hour: "*/2"
+        minute: "7"
+      with_items:
+        - "{{ solr_cores }}"
+
+    - name: Add ssh private key to the {{ solr_user }} user account
+      copy:
+        dest: "{{ solr_data_dir }}/.ssh/id_rsa"
+        content: "{{ ssh_private_key }}"
+        group: "{{ solr_group }}"
+        mode: "0400"
+        owner: "{{ solr_user }}"
+        state: present
+        validate: >
+          ssh
+            -n -q
+            -o BatchMode=true
+            -o NoHostAuthenticationForLocalhost=true
+            -i %s
+            localhost true
+      when: ssh_private_key is defined
+
+  when:
+    - solr_replication_node == "slave"

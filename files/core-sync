@@ -1,0 +1,110 @@
+#!/bin/bash
+# Copyright 2020 Regents of the University of California
+
+# Sync Solr cores from master to slave
+# John H. Robinson, IV <jhriv@ucla.edu> 2020-09-23
+
+# Return codes:
+#  0: Success
+#  1: Missing parameters
+#  2: systemctl error
+#  3: rsync error
+
+# Goals: Minimize solr downtime, minimize solr data inconsistencies,
+#        minimize network traffic
+# Method:
+#  Copy local solr index to a temporary staging area
+#  Sync data from master to the staging area, copying only the changes
+#  Stop Solr
+#  Sync staging area to index
+#  Start Solr
+
+# We discovered a denial-of-service when a large ingest would occur. The slave
+# would update from the solr master, and be unable to process any requests until
+# the ingest was complete. This script takes the responsibility of index updates
+# away from Solr.
+
+# Other options:
+#   1) Sync directly to live index, restart solr
+#      * Very little solr downtime
+#      * Could cause solr to serve inconsistent data
+#   2) Move (mv) staging area to index
+#      * Very fast data transfer
+#      * But only if on the same filesystem
+
+# Set program name
+prog="${0##*/}"
+
+# Validate parameters (in this case, ensure we have at least one)
+if [ -z "$1" ]; then
+  printf 'Usage: %s <solr-master-uri>\n' "$prog"
+  printf '\n'
+  printf 'Example: %s %s\n' \
+    "$prog" \
+    'http://t-u-calursussolrmaster01.library.ucla.edu/solr/calursus'
+  exit 1
+fi
+
+
+# Set or inherit $SOLR_* environmental variables
+: "${SOLR_UNIT:=solr}"
+: "${SOLR_PATH:=$HOME}"
+
+# Set RSYNC_OPTIONS
+declare -a RSYNC_OPTIONS
+RSYNC_OPTIONS=(--archive --delete --partial --quiet "--log-file=$SOLR_PATH/logs/sync.log")
+
+
+# set core & hostname
+# TODO: Find a cleaner way to extract authority hostname
+solr_uri="$1"
+core="${solr_uri##*/}"
+hostname="${solr_uri#*//}" # strip off scheme, and authority prefix
+hostname="${hostname%%/*}" # strip off authority suffix, path, query and fragment
+
+# Make staging area; remove it when done
+staging="$(mktemp --tmpdir -d "$prog.tmp.XXXXXXXXXX")" || exit 1
+cleanstaging() {
+  rm -rf "$staging"
+}
+trap cleanstaging EXIT
+
+# Copy local solr index to staging area
+rsync "${RSYNC_OPTIONS[@]}" \
+  "$SOLR_PATH/data/$core/data/." "$staging/." \
+  || {
+    printf '[E] Local rsync failed\n'
+    exit 2
+  }
+
+# Retrieve remote core index
+rsync "${RSYNC_OPTIONS[@]}" \
+  "$hostname:$SOLR_PATH/data/$core/data/." "$staging/." \
+  || {
+    printf '[E] Remote Rsync failed\n'
+    exit 2
+  }
+
+# Stop solr
+sudo systemctl stop "$SOLR_UNIT.service" \
+  || {
+    printf '[E] Failed to stop %s\n' "$SOLR_UNIT"
+    exit 3
+  }
+
+# Move index data in place
+rsync "${RSYNC_OPTIONS[@]}" \
+  "$staging/." "$SOLR_PATH/data/$core/data/." \
+  || {
+    printf '[E] Local rsync failed\n'
+    exit 2
+  }
+
+# Start solr
+sudo systemctl start "$SOLR_UNIT.service" \
+  || {
+    printf '[E] Failed to start %s\n' "$SOLR_UNIT"
+    exit 3
+  }
+
+# All done!

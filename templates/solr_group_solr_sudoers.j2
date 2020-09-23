@@ -1,0 +1,6 @@
+# Allow {{ solr_group }} group members to start/stop/restart/query {{ solr_service_name }} service
+
+%{{ solr_group }} ALL=(ALL) NOPASSWD: /bin/systemctl start {{ solr_service_name }}.service
+%{{ solr_group }} ALL=(ALL) NOPASSWD: /bin/systemctl stop {{ solr_service_name }}.service
+%{{ solr_group }} ALL=(ALL) NOPASSWD: /bin/systemctl restart {{ solr_service_name }}.service
+%{{ solr_group }} ALL=(ALL) NOPASSWD: /bin/systemctl status {{ solr_service_name }}.service

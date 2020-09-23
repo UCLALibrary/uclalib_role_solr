@@ -25,3 +25,7 @@
 - name: Set-up Solr Cores
   include_tasks: cores.yml
   when: solr_cores is defined
+
+- name: Set-up Solr Rsync
+  include_tasks: sync.yml
+  when: solr_replication_node != "none"
