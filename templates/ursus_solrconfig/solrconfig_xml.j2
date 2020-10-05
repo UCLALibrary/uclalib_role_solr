@@ -54,7 +54,7 @@
   </requestHandler>
 {% endif %}
 
-                <!-- config for the admin interface -->
+                  <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -65,7 +65,7 @@
     </updateLog>
 
     <autoCommit>
-      <maxTime>${solr.autoCommit.maxTime:15000}</maxTime>
+      <maxTime>${solr.autoCommit.maxTime:-1}</maxTime>
       <openSearcher>false</openSearcher>
     </autoCommit>
 
@@ -246,7 +246,7 @@
   </updateRequestProcessorChain>
   {% endif %}
 
-                <!-- Spell Check
+                  <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.

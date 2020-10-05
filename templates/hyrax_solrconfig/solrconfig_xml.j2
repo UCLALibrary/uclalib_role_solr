@@ -58,7 +58,7 @@
   </requestHandler>
 {% endif %}
 
-              <!-- config for the admin interface -->
+                <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -68,13 +68,11 @@
       <str name="dir">${solr.ulog.dir:}</str>
     </updateLog>
 
-    <!-- autoCommit disabled due to performance penalties -->
-    <!--
     <autoCommit>
-      <maxTime>${solr.autoCommit.maxTime:15000}</maxTime>
+      <maxTime>${solr.autoCommit.maxTime:-1}</maxTime>
       <openSearcher>false</openSearcher>
     </autoCommit>
-  -->
+
 
     <autoSoftCommit>
       <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime>
@@ -268,7 +266,7 @@
 {% endif %}
 
 
-            <!-- Spell Check
+              <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.

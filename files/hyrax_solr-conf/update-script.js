@@ -23,8 +23,9 @@ function processAdd(cmd) {
   //logger.info('update-script#processAdd: URL=' + url);
   logger.info('update-script#processAdd: doc=' + doc);
   if (
-    doc.getFieldValue('has_model_ssim') == 'Work' ||
-    doc.getFieldValue('has_model_ssim') == 'Collection'
+    (doc.getFieldValue('has_model_ssim') == 'Work' ||
+      doc.getFieldValue('has_model_ssim') == 'Collection') &&
+    doc.getFieldValue('visibility_ssi') == 'open'
   ) {
     var SolrClient = Java.type('org.apache.solr.client.solrj.SolrClient');
     var HttpSolrClient = Java.type(
@@ -40,7 +41,7 @@ function processAdd(cmd) {
     solrclient.setParser(new XMLResponseParser());
     logger.info('update-script#processAdd: solrclient=' + solrclient);
     solrclient.add(doc);
-    solrclient.commit();
+    //solrclient.commit();
   }
 
   // Set a field value:
