@@ -58,11 +58,11 @@
   </requestHandler>
 {% endif %}
 
-                  <!-- config for the admin interface -->
+                        <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
-
+{% if solr_replication_node != "slave" %}
   <updateHandler class="solr.DirectUpdateHandler2">
     <updateLog>
       <str name="dir">${solr.ulog.dir:}</str>
@@ -78,8 +78,9 @@
       <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime>
     </autoSoftCommit>
   </updateHandler>
+  {% endif %}
 
-  <!-- SearchHandler
+        <!-- SearchHandler
 
        http://wiki.apache.org/solr/SearchHandler
 
@@ -266,7 +267,7 @@
 {% endif %}
 
 
-                <!-- Spell Check
+                      <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
@@ -375,7 +376,7 @@
     </arr>
   </requestHandler>
   -->
-
+{% if solr_replication_node != "slave" %}
   <requestHandler name="/update/extract" class="org.apache.solr.handler.extraction.ExtractingRequestHandler">
     <lst name="defaults">
       <str name="fmap.Last-Modified">last_modified</str>
@@ -389,6 +390,7 @@
     <!--   <str>yyyy&#45;MM&#45;dd</str> -->
     <!-- </lst> -->
   </requestHandler>
+{% endif %}
 
 {% if solr_replication_node == "master" %}
   <requestHandler name="/replication" class="solr.ReplicationHandler">
