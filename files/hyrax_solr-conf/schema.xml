@@ -229,6 +229,7 @@
 
     <field name="title_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="false" multiValued="false"/>
     <field name="date_dtsort" type="date" indexed="true" stored="true" multiValued="false" docValues="true"/>
+    <field name="shelfmark_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="true" multiValued="false"/>
     <!-- NOTE:  not all possible Solr field types are represented in the dynamic fields -->
 
     <!-- text (_t...) -->
@@ -382,6 +383,10 @@
         or to add multiple fields to the same field for easier/faster searching.  -->
   <!-- Copy Fields -->
   <copyField source="sort_title_ssort" dest="title_alpha_numeric_ssort" />
+  <copyField source="shelfmark_ssi" dest="shelfmark_alpha_numeric_ssort" />
+  <!-- for sorting -->
+  <copyField source="shelfmark_ssi" dest="shelfmark_tsi" />
+  <!-- for searching -->
   <!-- Above, multiple source fields are copied to the [text] field.
     Another way to map multiple source fields to the same
     destination field is to use the dynamic field syntax.
