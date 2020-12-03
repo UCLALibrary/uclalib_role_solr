@@ -384,6 +384,9 @@
   <!-- Copy Fields -->
   <copyField source="sort_title_ssort" dest="title_alpha_numeric_ssort" />
   <copyField source="shelfmark_ssi" dest="shelfmark_alpha_numeric_ssort" />
+  <!-- for sorting -->
+  <copyField source="shelfmark_ssi" dest="shelfmark_tsi" />
+  <!-- for searching -->
   <!-- Above, multiple source fields are copied to the [text] field.
     Another way to map multiple source fields to the same
     destination field is to use the dynamic field syntax.
