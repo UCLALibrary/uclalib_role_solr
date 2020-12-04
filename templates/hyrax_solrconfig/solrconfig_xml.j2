@@ -58,7 +58,7 @@
   </requestHandler>
 {% endif %}
 
-                            <!-- config for the admin interface -->
+                                    <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -206,7 +206,7 @@
   </requestHandler>
 {% if solr_replication_node != "slave" %}
   <updateRequestProcessorChain name="add_modify_fields" default="${update.autoCreateFields:true}">
-    {% if feature_flag != "sinaimanu" %}
+    {% feature_flag is not defined or feature_flag != "sinaimanu" %}
     <processor class="solr.CloneFieldUpdateProcessorFactory">
       <str name="source">date_dtsim</str>
       <str name="dest">date_dtsort</str>
@@ -257,7 +257,7 @@
       <str name="signatureClass">solr.processor.Lookup3Signature</str>
       <str name="defType">lucene</str>
     </processor>
-    {% if feature_flag != "sinaimanu" %}
+   {% feature_flag is not defined or feature_flag != "sinaimanu" %}
     <processor class="solr.StatelessScriptUpdateProcessorFactory">
       <str name="script">update-script.js</str>
     </processor>
@@ -269,7 +269,7 @@
 {% endif %}
 
 
-                          <!-- Spell Check
+                                  <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
