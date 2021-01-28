@@ -58,7 +58,7 @@
   </requestHandler>
 {% endif %}
 
-                                      <!-- config for the admin interface -->
+                                        <!-- config for the admin interface -->
   <admin>
     <defaultQuery>*:*</defaultQuery>
   </admin>
@@ -257,11 +257,6 @@
       <str name="signatureClass">solr.processor.Lookup3Signature</str>
       <str name="defType">lucene</str>
     </processor>
-   {% if feature_flag is not defined or feature_flag != "sinaimanu" %}
-    <processor class="solr.StatelessScriptUpdateProcessorFactory">
-      <str name="script">update-script.js</str>
-    </processor>
-    {% endif %}
 
     <processor class="solr.LogUpdateProcessorFactory" />
     <processor class="solr.RunUpdateProcessorFactory" />
@@ -269,7 +264,7 @@
 {% endif %}
 
 
-                                    <!-- Spell Check
+                                      <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
         suggestions.
