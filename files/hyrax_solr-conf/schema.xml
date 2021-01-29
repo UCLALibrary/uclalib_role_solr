@@ -228,7 +228,7 @@
     <field name="lng" type="tdouble" stored="true" indexed="true" multiValued="false"/>
 
     <field name="title_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="false" multiValued="false"/>
-    <field name="date_dtsort" type="date" indexed="true" stored="true" multiValued="false" docValues="true"/>
+    <field name="date_dtsort" type="date" indexed="true" stored="true" multiValued="false"/>
     <field name="shelfmark_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="true" multiValued="false"/>
     <!-- NOTE:  not all possible Solr field types are represented in the dynamic fields -->
 
@@ -257,12 +257,12 @@
     <dynamicField name="*_tesimv" type="text_en" stored="true" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
 
     <!-- string (_s...) -->
-    <dynamicField name="*_si" type="string" stored="false" indexed="true" multiValued="false" docValues="true"/>
-    <dynamicField name="*_sim" type="string" stored="false" indexed="true" multiValued="true" docValues="true"/>
-    <dynamicField name="*_ss" type="string" stored="true" indexed="false" multiValued="false" docValues="true"/>
-    <dynamicField name="*_ssm" type="string" stored="true" indexed="false" multiValued="true" docValues="true"/>
-    <dynamicField name="*_ssi" type="string" stored="true" indexed="true" multiValued="false" docValues="true"/>
-    <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true" docValues="true"/>
+    <dynamicField name="*_si" type="string" stored="false" indexed="true" multiValued="false"/>
+    <dynamicField name="*_sim" type="string" stored="false" indexed="true" multiValued="true"/>
+    <dynamicField name="*_ss" type="string" stored="true" indexed="false" multiValued="false"/>
+    <dynamicField name="*_ssm" type="string" stored="true" indexed="false" multiValued="true"/>
+    <dynamicField name="*_ssi" type="string" stored="true" indexed="true" multiValued="false"/>
+    <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true"/>
     <dynamicField name="*_ssort" type="alphaSort" stored="false" indexed="true" multiValued="false"/>
 
     <!-- integer (_i...) -->
