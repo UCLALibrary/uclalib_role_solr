@@ -1,0 +1,9 @@
+---
+
+- name: Install rsync replication script
+  template:
+    dest: /usr/local/sbin/solr-rsync-replication
+    src: rsync.sh.j2
+    mode: 0444
+    owner: root
+    group: root

@@ -25,7 +25,7 @@ If you have project-specific Solr configuration files, they should be placed in 
 * `solr_config_file` - defines the path to the Solr installation configuration file
 * `solr_java_min_mem` - defines the Solr process minimum memory allocation
 * `solr_java_max_mem` - defines the Solr process maximum memory allocation
-* `solr_replication_node` - defines the Solr replication status for this system (default is `none` - options are `master`, `slave`, `none`)
+* `solr_replication_node` - defines the Solr replication status for this system (default is `none` - options are `master`, `slave`, `rsync`, `none`)
 * `solr_replication_master_url` - defines the URL path to the Solr Master node (only necessary if `solr_replication_node` set to `slave`)
 * `solr_cores` - the dictionary list of all Solr cores to be used in this instance
   * `ident` - defines the names of the cores to configure within this Solr instance
@@ -33,6 +33,7 @@ If you have project-specific Solr configuration files, they should be placed in 
     * the `type` variable is used in conjunction with application specific solr configuration files. You will need to manually put the appropriate files in the `files` directory for this role.
       * the naming convention for solr configuration files is: `projname_solr-conf`
       * for example, if your `type` is set to drupal, then the custom solr config file dir should be named: `drupal_solr-conf`
+* `solr_core_to_sync` - the name of the core to replicate via rsync
 
 ## Solr Download URL Note
 
