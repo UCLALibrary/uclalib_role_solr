@@ -4,6 +4,8 @@ dependencies: []
 
 galaxy_info:
   author: Stephen Gurnick - https://github.com/sgurnick
+  namespace: uclalibrary
+  role: uclalib_role_solr7
   description: Installs Solr 7
   company: UCLA Library
   license: reference LICENSE file

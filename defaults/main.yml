@@ -35,7 +35,7 @@ solr_java_min_mem: 2048m
 
 solr_java_max_mem: 2048m
 
-# Define if Solr replication should be enabled (master, slave, none)
+# Define if Solr replication should be enabled (master, slave, rsync, none)
 solr_replication_node: "none"
 
 # Defines the URL path to the Solr Master node (only necessary if solr_replication_node set to slave)
@@ -48,3 +48,7 @@ solr_replication_master_url: ""
 solr_cores:
   - ident: "core1"
     type: "default"
+
+# Define the solr core to replicate, when using rsync method
+# Defaults to the first core in the solr_cores list
+solr_core_to_sync: '{{ solr_cores[0].ident }}'
