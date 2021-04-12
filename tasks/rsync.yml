@@ -2,8 +2,8 @@
 
 - name: Install rsync replication script
   template:
-    dest: /usr/local/sbin/solr-rsync-replication
+    dest: '{{ solr_rsync_script_path }}'
     src: rsync.sh.j2
-    mode: 0444
+    mode: 0555
     owner: root
     group: root
