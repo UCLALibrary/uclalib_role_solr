@@ -52,3 +52,4 @@ solr_cores:
 # Define the solr core to replicate, when using rsync method
 # Defaults to the first core in the solr_cores list
 solr_core_to_sync: '{{ solr_cores[0].ident }}'
+solr_rsync_script_path: /usr/local/sbin/solr-rsync-replication

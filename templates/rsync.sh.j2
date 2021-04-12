@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# ANSIBLE MANAGED - DO NOT EDIT
+# https://github.com/UCLALibrary/uclalib_role_solr7/blob/master/templates/rsync.sh.j2
+
+# drop privileges
+if [[ "$(id -u)" == 0 ]]; then
+   exec runuser '{{ solr_user }}' "$0"
+fi
+
 backups='{{ backups | default ("5") }}'
 core='{{ solr_core_to_sync }}'
 max_tries='{{ max_tries | default ("6") }}'
