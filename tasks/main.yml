@@ -28,4 +28,4 @@
 
 - name: Enable rsync replication
   include_tasks: rsync.yml
-  when: solr_replication_mode == "rsync"
+  when: solr_replication_node == "rsync"
