@@ -18,6 +18,13 @@
     group: root
     mode: 0644
 
+- name: Reduce system swappiness level
+  sysctl:
+    name: "vm.swappiness"
+    value: "1"
+    state: present
+    reload: "yes"
+
 - name: Execute Solr installation script
   shell: >
     {{ solr_install_dir }}/install_solr_service.sh
