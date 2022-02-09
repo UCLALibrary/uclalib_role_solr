@@ -1,19 +1,19 @@
 ---
 
-# Define the version of Solr to use
-solr_version: 7.4.0
+# Define the version of Solr to use - takes the form X.Y.Z (e.g. 7.4.3)
+solr_version: ""
 
 # Define the URL to obtain Solr
 solr_url: "http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz"
 
 # Define user to own Solr files and run Solr process
-solr_user: solr
+solr_user: "solr"
 
 # Define name of Solr service
-solr_service_name: solr
+solr_service_name: "solr"
 
 # Define the Solr installation directory
-solr_install_dir: /opt
+solr_install_dir: "/opt"
 
 # Define location of Solr installation path
 solr_base_dir: "{{ solr_install_dir }}/{{ solr_service_name }}"
@@ -28,12 +28,12 @@ solr_fqdn: "solr.library.ucla.edu"
 solr_port: 8983
 
 # Define path to Solr configuration file
-solr_config_file: /etc/default/solr.in.sh
+solr_config_file: "/etc/default/solr.in.sh"
 
 # Define solr memory min and max
-solr_java_min_mem: 2048m
+solr_java_min_mem: "2048m"
 
-solr_java_max_mem: 2048m
+solr_java_max_mem: "2048m"
 
 # Define if Solr replication should be enabled (master, slave, rsync, none)
 solr_replication_node: "none"
@@ -52,4 +52,4 @@ solr_cores:
 # Define the solr core to replicate, when using rsync method
 # Defaults to the first core in the solr_cores list
 solr_core_to_sync: '{{ solr_cores[0].ident }}'
-solr_rsync_script_path: /usr/local/sbin/solr-rsync-replication
+solr_rsync_script_path: "/usr/local/sbin/solr-rsync-replication"
