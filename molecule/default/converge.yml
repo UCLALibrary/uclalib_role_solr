@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include uclalib_role_solr7"
+    - name: "Include uclalib_role_solr"
       include_role:
-        name: "uclalib_role_solr7"
+        name: "uclalib_role_solr"

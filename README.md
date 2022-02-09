@@ -1,12 +1,13 @@
 # UCLALib Ansible Role: Solr
 
-Ansible role to install Apache Solr 7 on RHEL servers and set-up Solr cores
+Ansible role to install Apache Solr on RHEL servers and set-up Solr cores
 
 ## Requirements
 
 This role is capable of deploying Solr in the following configurations:
 
 * Standalone: a single Solr instance
+* standalone: source and replica instances
 
 It is assumed that Java and HTTPD are installed on the host system.
 
@@ -14,7 +15,7 @@ If you have project-specific Solr configuration files, they should be placed in 
 
 ## Variables
 
-* `solr_version` - defines the version of Solr to use (e.g. 4.2.0, etc.)
+* `solr_version` - defines the version of Solr to use - takes the form X.Y.Z (e.g. 7.4.3)
 * `solr_url` - defines the URL to download Solr
 * `solr_user` - defines the user to own Solr files and run the Solr process
 * `solr_service_name` - defines the name of the Solr process
@@ -48,6 +49,8 @@ If you are affiliated with UCLA, you have the option of overriding this default 
 Versions of Solr available via the UCLA URL are:
 
 * `7.4.0`
+* `8.7.0`
+* `8.11.1`
 
 ## Dependencies
 
@@ -85,7 +88,7 @@ Example:
         type: hyrax
 
     roles:
-      - { role: uclalib_role_java, oracle_java_version: '1.8.0_181' }
+      - { role: uclalib_role_java, openjdk_java_version: '11' }
       - { role: uclalib_role_apache }
-      - { role: uclalib_role_solr, solr_version: '7.4.0' }
+      - { role: uclalib_role_solr, solr_version: '8.7.0' }
 ```
