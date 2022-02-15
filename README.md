@@ -4,10 +4,10 @@ Ansible role to install Apache Solr on RHEL servers and set-up Solr cores
 
 ## Requirements
 
-This role is capable of deploying Solr in the following configurations:
+This role deploys Apache Solr (version 7 and higher) in the following configurations:
 
 * Standalone: a single Solr instance
-* standalone: source and replica instances
+* Standalone: source and replica instances
 
 It is assumed that Java and HTTPD are installed on the host system.
 
