@@ -50,7 +50,7 @@ Versions of Solr available via the UCLA URL are:
 
 * `7.4.0`
 * `8.7.0`
-* `8.11.1`
+* `8.11.2`
 
 ## Dependencies
 
