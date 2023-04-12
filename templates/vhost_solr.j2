@@ -20,7 +20,15 @@
   ProxyPassReverse /solr http://localhost:{{ solr_port }}/solr
   ProxyTimeout 300
   <Location /solr>
+{% if restrict_write_methods is defined %}
+    <Limit POST PATCH PUT DELETE>
+{% for result in restrict_write_methods.ipranges %}
+      Require ip {{ result }}
+{% endfor %}
+    </Limit>
+{% else %}
     Require all granted
+{% endif %}
   </Location>
 
 </VirtualHost>
