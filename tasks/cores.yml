@@ -1,10 +1,10 @@
 ---
 
 - name: Create Solr cores
-  become: yes
+  become: true
   become_user: "{{ solr_user }}"
   shell: >
-    {{ solr_base_dir }}/bin/solr create -c {{ item.ident }} -p {{ solr_port }}
+    {{ solr_base_dir }}/bin/solr create -c {{ item.ident }}
     creates={{ solr_data_dir }}/data/{{ item.ident }}
   with_items: "{{ solr_cores }}"
 
