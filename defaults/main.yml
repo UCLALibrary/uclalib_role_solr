@@ -1,7 +1,7 @@
 ---
 
 # Define the version of Solr to use - takes the form X.Y.Z (e.g. 7.4.3)
-solr_version: ""
+# solr_version: ""
 
 # Define the URL to obtain Solr
 solr_url: "http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz"
@@ -22,7 +22,7 @@ solr_base_dir: "{{ solr_install_dir }}/{{ solr_service_name }}"
 solr_data_dir: "/var/{{ solr_service_name }}"
 
 # Define the FQDN of the solr server
-solr_fqdn: "solr.library.ucla.edu"
+# solr_fqdn: "solr.library.ucla.edu"
 
 # Define port number Solr process binds to
 solr_port: 8983
@@ -35,21 +35,22 @@ solr_java_min_mem: "2048m"
 
 solr_java_max_mem: "2048m"
 
-# Define if Solr replication should be enabled (master, slave, rsync, none)
+# Define if Solr replication should be enabled (master, slave, none)
 solr_replication_node: "none"
 
 # Defines the URL path to the Solr Master node (only necessary if solr_replication_node set to slave)
 # Example: http://solr.library.ucla.edu:port/solr/core_name
-solr_replication_master_url: ""
+# solr_replication_master_url: ""
 
 # Define the cores to be included in the Solr instance
 # Define the core identifier and solrconfig type
 # Use "default" type to include standard solrconfig
-solr_cores:
-  - ident: "core1"
-    type: "default"
+# solr_cores:
+#   - ident: "core1"
+#     type: "default"
 
 # Define the solr core to replicate, when using rsync method
 # Defaults to the first core in the solr_cores list
-solr_core_to_sync: '{{ solr_cores[0].ident }}'
-solr_rsync_script_path: "/usr/local/sbin/solr-rsync-replication"
+# solr_core_to_sync: '{{ solr_cores[0].ident }}'
+# solr_core_source: ""
+# solr_sync_script_path: "/usr/local/sbin/solr-rsync-replication"

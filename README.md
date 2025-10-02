@@ -16,17 +16,18 @@ If you have project-specific Solr configuration files, they should be placed in 
 ## Variables
 
 * `solr_version` - defines the version of Solr to use - takes the form X.Y.Z (e.g. 7.4.3)
-* `solr_url` - defines the URL to download Solr
-* `solr_user` - defines the user to own Solr files and run the Solr process
-* `solr_service_name` - defines the name of the Solr process
-* `solr_install_dir` - defines the top-level directory where Solr will be installed
-* `solr_base_dir` - defines the full path where Solr is installed
-* `solr_data_dir` - defines the full path where the Solr indexes/cores will reside
-* `solr_port` - defines the network port the Solr process will bind to
-* `solr_config_file` - defines the path to the Solr installation configuration file
-* `solr_java_min_mem` - defines the Solr process minimum memory allocation
-* `solr_java_max_mem` - defines the Solr process maximum memory allocation
-* `solr_replication_node` - defines the Solr replication status for this system (default is `none` - options are `master`, `slave`, `rsync`, `none`)
+* `solr_url` - defines the URL to download Solr (default is to pull from archive.apache.org)
+* `solr_user` - defines the user to own Solr files and run the Solr process (default is `solr`)
+* `solr_service_name` - defines the name of the Solr process (default is `solr`)
+* `solr_install_dir` - defines the top-level directory where Solr will be installed (default is `/opt`)
+* `solr_base_dir` - defines the full path where Solr is installed (default based on service name and install dir, typically `/opt/solr`)
+* `solr_data_dir` - defines the full path where the Solr indexes/cores will reside (default based on service name, typically `/var/solr`)
+* `solr_fqdn` - defines the FQDN of the solr server
+* `solr_port` - defines the network port the Solr process will bind to (default is `8983`)
+* `solr_config_file` - defines the path to the Solr installation configuration file (default is `/etc/default/solr.in.sh`)
+* `solr_java_min_mem` - defines the Solr process minimum memory allocation (default is `2048m`)
+* `solr_java_max_mem` - defines the Solr process maximum memory allocation (default is `2048m`)
+* `solr_replication_node` - defines the Solr replication status for this system (default is `none` - options are `master`, `slave`, `none`)
 * `solr_replication_master_url` - defines the URL path to the Solr Master node (only necessary if `solr_replication_node` set to `slave`)
 * `solr_cores` - the dictionary list of all Solr cores to be used in this instance
   * `ident` - defines the names of the cores to configure within this Solr instance
@@ -35,6 +36,8 @@ If you have project-specific Solr configuration files, they should be placed in 
       * the naming convention for solr configuration files is: `projname_solr-conf`
       * for example, if your `type` is set to drupal, then the custom solr config file dir should be named: `drupal_solr-conf`
 * `solr_core_to_sync` - the name of the core to replicate via rsync
+* `solr_core_source` - server to pull core from
+* `solr_sync_script_path` - path to install sync script to
 
 ## Solr Download URL Note
 
@@ -60,8 +63,9 @@ Versions of Solr available via the UCLA URL are:
 
 ## Sample Variable Definition Formats
 
-#### Standalone Solr Instance
-```
+### Standalone Solr Instance
+
+```yaml
 solr_cores:
   - ident: core1
     type: default
@@ -73,7 +77,8 @@ solr_cores:
 
 The variable definitions should be placed in the playbook under the `vars` statement.
 Example:
-```
+
+```yaml
 ---
 - name: uclalib_solr.yml
   sudo: true
