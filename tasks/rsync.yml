@@ -2,8 +2,11 @@
 
 - name: Install rsync replication script
   template:
-    dest: '{{ solr_sync_script_path }}'
-    src: core-sync.sh.j2
+    dest: '{{ item.dest }}'
+    src: '{{ item.src }}'
     mode: 0555
     owner: root
     group: root
+  loop:
+    - { src: core-sync.sh.j2, dest: '{{ solr_sync_script_path }}' }
+    - { src: core-rollback.j2, dest: '{{ solr_sync_script_path }}-rollback' }

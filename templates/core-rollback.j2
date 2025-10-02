@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# ANSIBLE MANAGED - DO NOT EDIT
+# https://github.com/UCLALibrary/uclalib_role_solr/blob/master/templates/core-rollback.sh.j2
+
+# drop privileges
+if [[ "$(id -u)" == 0 ]]; then
+   exec runuser '{{ solr_user }}' "$0"
+fi
+
+core='{{ solr_core_to_sync }}'
+solr_home='{{ solr_home }}'
+
+datadir="$solr_home/$core/data"
+now="$(date +%s.%N)"
+
+# cron logging
+if [ "$1" == '--cron' ]; then
+  exec >> "$solr_home/../logs/feed-sync.log"
+  exec 2>&1
+fi
+
+if ! [ -d "$datadir.1" ]; then
+  echo "==> No previous core to roll back to. Aborted."
+  exit 1
+fi
+
+echo "==> Rolling back to last known good core"
+
+echo "--> unloading current core ($(date +%s.%N))"
+curl -s "http://localhost:8983/solr/admin/cores?action=UNLOAD&core=$core"
+
+mv "$datadir" "$datadir.tmp"
+mv "$datadir.1" "$datadir"
+mv "$datadir.tmp" "$datadir.1"
+
+echo "--> loading previous core ($(date +%s.%N))"
+curl -fs "http://localhost:8983/solr/admin/cores?action=CREATE&name=$core" || {
+  echo '--> CREATE FAILED'
+  mv "$datadir" "$datadir-$now.err"
+  mv "$datadir.1" "$datadir"
+  curl -fs "http://localhost:8983/solr/admin/cores?action=CREATE&name=$core"
+  echo "<== Failed Back ($(date +%s.%N))"
+  exit 1
+}
+
+echo "<== Rollback Complete ($(date +%s.%N))"

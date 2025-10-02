@@ -8,7 +8,6 @@ if [[ "$(id -u)" == 0 ]]; then
    exec runuser '{{ solr_user }}' "$0"
 fi
 
-backups='{{ backups | default ("5") }}'
 core='{{ solr_core_to_sync }}'
 max_tries='{{ max_tries | default ("6") }}'
 source='{{ solr_core_source }}'
@@ -28,7 +27,9 @@ try=0
 while (( try++ < max_tries )); do
   echo "--> Attempt $try ($(date +%s.%N))"
   if rsync -a --partial --delete --link-dest="$datadir" "$source::$core" "$datadir-$now.in"; then
-    ln -s "$datadir-$now.in" "$datadir.rollback"
+    if [ -d "$datadir.1" ]; then
+      rm -rf "$datadir.1"
+    fi
     break
   fi
   sleep 1
@@ -42,20 +43,17 @@ fi
 echo "--> unloading core ($(date +%s.%N))"
 curl -s "http://localhost:8983/solr/admin/cores?action=UNLOAD&core=$core"
 
-mv "$datadir" "$datadir-$now"
+mv "$datadir" "$datadir.1"
 mv "$datadir-$now.in" "$datadir"
 
 echo "--> loading core ($(date +%s.%N))"
 curl -fs "http://localhost:8983/solr/admin/cores?action=CREATE&name=$core" || {
   echo '--> CREATE FAILED'
   mv "$datadir" "$datadir-$now.err"
-  mv "$datadir-$now" "$datadir"
+  mv "$datadir.1" "$datadir"
   curl -fs "http://localhost:8983/solr/admin/cores?action=CREATE&name=$core"
   echo "<== Rolled Back ($(date +%s.%N))"
   exit 1
 }
 
 echo "<== Replication Complete ($(date +%s.%N))"
-
-# save $backups copies
-find "$datadir/.." -maxdepth 1 -name data-\* -print | sort -r | sed -n "$(( backups+1 )),\$p" | xargs -r rm -rf
