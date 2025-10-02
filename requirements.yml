@@ -1,6 +1,6 @@
-# Ansible role requirements for a Solr 7 deployment
+# Ansible role requirements for a Solr deployment
 
-- src: git+https://github.com/UCLALibrary/uclalib_role_rhel7repos.git
+- src: git+https://github.com/UCLALibrary/uclalib_role_rhel8repos.git
   
 - src: git+https://github.com/UCLALibrary/uclalib_role_epel.git
 

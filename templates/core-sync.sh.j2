@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ANSIBLE MANAGED - DO NOT EDIT
-# https://github.com/UCLALibrary/uclalib_role_solr7/blob/master/templates/rsync.sh.j2
+# https://github.com/UCLALibrary/uclalib_role_solr/blob/master/templates/core-sync.sh.j2
 
 # drop privileges
 if [[ "$(id -u)" == 0 ]]; then
@@ -11,7 +11,7 @@ fi
 backups='{{ backups | default ("5") }}'
 core='{{ solr_core_to_sync }}'
 max_tries='{{ max_tries | default ("6") }}'
-primary='{{ solr_master }}'
+source='{{ solr_core_source }}'
 solr_home='{{ solr_home }}'
 
 datadir="$solr_home/$core/data"
@@ -19,7 +19,7 @@ now="$(date +%s.%N)"
 
 # cron logging
 if [ "$1" == '--cron' ]; then
-  exec >> "$solr_home/../logs/rsync.log"
+  exec >> "$solr_home/../logs/feed-sync.log"
   exec 2>&1
 fi
 
@@ -27,7 +27,8 @@ echo "==> Replication Start"
 try=0
 while (( try++ < max_tries )); do
   echo "--> Attempt $try ($(date +%s.%N))"
-  if rsync -a --partial --delete --link-dest="$datadir" "$primary::$core" "$datadir-$now.in"; then
+  if rsync -a --partial --delete --link-dest="$datadir" "$source::$core" "$datadir-$now.in"; then
+    ln -s "$datadir-$now.in" "$datadir.rollback"
     break
   fi
   sleep 1

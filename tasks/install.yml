@@ -1,7 +1,7 @@
 ---
 
 - name: Unpack Solr installation script from Solr archive
-  shell: >
+  command: >
     tar xzf {{ solr_install_dir }}/solr-{{ solr_version }}.tgz
     -C {{ solr_install_dir }}
     solr-{{ solr_version }}/bin/install_solr_service.sh
@@ -26,7 +26,7 @@
     reload: "yes"
 
 - name: Execute Solr installation script
-  shell: >
+  command: >
     {{ solr_install_dir }}/install_solr_service.sh
     {{ solr_install_dir }}/solr-{{ solr_version }}.tgz
     -i {{ solr_install_dir }}
@@ -34,7 +34,7 @@
     -u {{ solr_user }}
     -s {{ solr_service_name }}
     -p {{ solr_port }}
-    -n 
+    -n
     creates={{ solr_base_dir }}/bin/solr
 
 - name: Clean-up install files
