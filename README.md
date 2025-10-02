@@ -37,7 +37,7 @@ If you have project-specific Solr configuration files, they should be placed in 
       * for example, if your `type` is set to drupal, then the custom solr config file dir should be named: `drupal_solr-conf`
 * `solr_core_to_sync` - the name of the core to replicate via rsync
 * `solr_core_source` - server to pull core from
-* `solr_sync_script_path` - path to install sync script to
+* `solr_sync_script_path` - path to install sync script to (default `/usr/local/sbin/solr-rsync-replication`)
 
 ## Solr Download URL Note
 
