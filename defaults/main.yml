@@ -54,3 +54,4 @@ solr_replication_node: "none"
 # solr_core_to_sync: '{{ solr_cores[0].ident }}'
 # solr_core_source: ""
 solr_sync_script_path: "/usr/local/sbin/solr-rsync-replication"
+solr_home: '{{ solr_data_dir }}/data'

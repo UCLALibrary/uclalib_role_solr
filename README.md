@@ -38,6 +38,7 @@ If you have project-specific Solr configuration files, they should be placed in 
 * `solr_core_to_sync` - the name of the core to replicate via rsync
 * `solr_core_source` - server to pull core from
 * `solr_sync_script_path` - path to install sync script to (default `/usr/local/sbin/solr-rsync-replication`)
+* `solr_home` - data path for solr core synchronization (default based on solr data dir, typically `/var/solr/data`)
 
 ## Solr Download URL Note
 
