@@ -5,12 +5,12 @@
 
 # drop privileges
 if [[ "$(id -u)" == 0 ]]; then
-   exec runuser '{{ solr_user }}' "$0"
+   exec runuser '{{ solr_user }}' "$0" "$@"
 fi
 
 core='{{ solr_core_to_sync }}'
 max_tries='{{ max_tries | default ("6") }}'
-source='{{ solr_core_source }}'
+source="$1"
 solr_home='{{ solr_home }}'
 
 datadir="$solr_home/$core/data"
@@ -20,6 +20,12 @@ now="$(date +%s.%N)"
 if [ "$1" == '--cron' ]; then
   exec >> "$solr_home/../logs/feed-sync.log"
   exec 2>&1
+fi
+
+# ensure a source host is passed
+if [[ -z "$source" ]]; then
+  printf 'E: No Solr host source supplied.\n'
+  exit 1
 fi
 
 echo "==> Replication Start"
